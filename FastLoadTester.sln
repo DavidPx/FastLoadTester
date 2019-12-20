@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FastLoadTester", "FastLoadTester.vcxproj", "{60E9EB6A-7596-4972-814C-E4C764F1836F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Debug|x64.ActiveCfg = Debug|x64
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Debug|x64.Build.0 = Debug|x64
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Debug|x86.ActiveCfg = Debug|Win32
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Debug|x86.Build.0 = Debug|Win32
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Release|x64.ActiveCfg = Release|x64
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Release|x64.Build.0 = Release|x64
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Release|x86.ActiveCfg = Release|Win32
+		{60E9EB6A-7596-4972-814C-E4C764F1836F}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D317360D-CA4A-45F3-A43F-3AC98325B1CC}
+	EndGlobalSection
+EndGlobal
