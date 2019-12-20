@@ -192,7 +192,7 @@ HRESULT FastLoadData() {
     oneBinding.obValue = ulOffset + offsetof(COLUMNDATA, bData);
     oneBinding.obLength = ulOffset + offsetof(COLUMNDATA, dwLength);
     oneBinding.obStatus = ulOffset + offsetof(COLUMNDATA, dwStatus);
-    oneBinding.cbMaxLen = 1;   // Size of varchar column.  
+    oneBinding.cbMaxLen = 1;   // For a fixed-length data type such as bit, this is ignored  
     oneBinding.pTypeInfo = NULL;
     oneBinding.pObject = NULL;
     oneBinding.pBindExt = NULL;
@@ -226,22 +226,17 @@ HRESULT FastLoadData() {
 
     pcolData = (COLUMNDATA*)pData;
     pcolData->dwLength = 1;
-    pcolData->dwStatus = 0;
+    pcolData->dwStatus = DBSTATUS_S_OK; // Indicates that the data value is to be used, not null
 
-    for (i = 0; i < 10; i++)
+    for (byte i = 0; i <= 0xFF; i++)
     {
-        if (i % 2 == 0)
-        {
-            pcolData->bData[0] = 0x00;
-        }
-        else
-        {
-            pcolData->bData[0] = 0xFF;
-        }
+        pcolData->bData[0] = i;
         
 
         if (FAILED(hr = pIFastLoad->InsertRow(hAccessor, pData)))
             goto cleanup;
+
+        if (i == 0xFF) break;
     }
 
     if (FAILED(hr = pIFastLoad->Commit(TRUE)))

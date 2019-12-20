@@ -5,3 +5,6 @@ IF EXISTS (SELECT name FROM sysobjects WHERE name = 'IRFLTable')
 GO  
   
 CREATE TABLE IRFLTable (col_bit bit)  
+
+delete from IRFLTable
+select * from IRFLTable
