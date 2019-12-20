@@ -228,9 +228,17 @@ HRESULT FastLoadData() {
     pcolData->dwLength = 1;
     pcolData->dwStatus = 0;
 
-    for (byte i = 0; i < 0xFF; i++)
+    for (i = 0; i < 10; i++)
     {
-        pcolData->bData[0] = i;
+        if (i % 2 == 0)
+        {
+            pcolData->bData[0] = 0x00;
+        }
+        else
+        {
+            pcolData->bData[0] = 0xFF;
+        }
+        
 
         if (FAILED(hr = pIFastLoad->InsertRow(hAccessor, pData)))
             goto cleanup;
