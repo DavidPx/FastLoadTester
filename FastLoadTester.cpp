@@ -49,7 +49,7 @@ HRESULT FastLoadData();
 struct COLUMNDATA {
     DBLENGTH dwLength;   // Length of data (not space allocated).  
     DWORD dwStatus;   // Status of column.  
-    BYTE bData[1];   // Store data here as a variant.  
+    VARIANT_BOOL bData;
 };
 
 #define COLUMN_ALIGNVAL 8  
@@ -73,6 +73,11 @@ int main() {
     IRowset* pIRowset = NULL;
     DBPROPSET* rgProperties = NULL;
     IAccessor* pIAccessor = NULL;
+
+    printf("Size of int: %x\n", sizeof(int));
+    printf("Size of long: %x\n", sizeof(int));
+    printf("Size of VARIANT_BOOL: %x\n", sizeof(VARIANT_BOOL));
+    printf("Size of short: %x\n", sizeof(short));
 
     // Basic initialization.  
     if (FAILED(CoInitialize(NULL)))
@@ -192,7 +197,9 @@ HRESULT FastLoadData() {
     oneBinding.obValue = ulOffset + offsetof(COLUMNDATA, bData);
     oneBinding.obLength = ulOffset + offsetof(COLUMNDATA, dwLength);
     oneBinding.obStatus = ulOffset + offsetof(COLUMNDATA, dwStatus);
-    oneBinding.cbMaxLen = 1;   // For a fixed-length data type such as bit, this is ignored  
+    // For a fixed-length data type such as bit, this is ignored  
+    // https://docs.microsoft.com/en-us/previous-versions/windows/desktop/ms716845(v%3Dvs.85)
+    oneBinding.cbMaxLen = sizeof(VARIANT_BOOL);   
     oneBinding.pTypeInfo = NULL;
     oneBinding.pObject = NULL;
     oneBinding.pBindExt = NULL;
@@ -218,25 +225,29 @@ HRESULT FastLoadData() {
         return hr;
 
     // Set up memory buffer.  
-    pData = new BYTE[40];
+    pData = new BYTE[10];
     if (!(pData /* = new BYTE[40]*/)) {
         hr = E_FAIL;
         goto cleanup;
     }
 
     pcolData = (COLUMNDATA*)pData;
-    pcolData->dwLength = 1;
+    pcolData->dwLength = sizeof(VARIANT_BOOL); // using a short.. make it two
     pcolData->dwStatus = DBSTATUS_S_OK; // Indicates that the data value is to be used, not null
 
-    for (byte i = 0; i <= 0xFF; i++)
+    for (i = 0; i < 10; i++)
     {
-        pcolData->bData[0] = i;
+        if (i % 2 == 0)
+        {
+            pcolData->bData = VARIANT_TRUE;
+        }
+        else
+        {
+            pcolData->bData = VARIANT_FALSE;
+        }
         
-
         if (FAILED(hr = pIFastLoad->InsertRow(hAccessor, pData)))
             goto cleanup;
-
-        if (i == 0xFF) break;
     }
 
     if (FAILED(hr = pIFastLoad->Commit(TRUE)))
